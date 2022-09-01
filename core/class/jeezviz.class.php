@@ -40,15 +40,20 @@ class jeezviz extends eqLogic {
    }
    
 
-   public function postUpdate() {
-      log::add('jeezviz', 'debug', '============ Début postUpdate ==========');
+   public function postSave() {
+      log::add('jeezviz', 'debug', '============ Début postSave ==========');
       $defaultActions=array("refresh" => "Rafraichir", 
                   "moveup" => "Haut", 
                   "movedown" => "Bas", 
                   "moveleft" => "Gauche", 
                   "moveright" => "Droite", 
                   "privacyOn" => "Mode Privé On", 
-                  "privacyOff" => "Mode Privé Off");
+                  "privacyOff" => "Mode Privé Off", 
+                  "alarmNotifyOn" => "Activer les notifications", 
+                  "alarmNotifyOff" => "Désactiver les notifications",
+                  "alarmNotifyIntense" => "Notifications : intences",
+                  "alarmNotifyLogiciel" => "Notifications : Rappels léger",
+                  "alarmNotifySilence" => "Notifications : Silence");
       $defaultBinariesInfos=array("hik" => "Hikvision",                              
                         "offlineNotify" => "Notification de déconnection",
                         "status" => "Etat");
@@ -143,6 +148,28 @@ class jeezvizCmd extends cmd {
          case "PRIVACYOFF":
             log::add('jeezviz', 'debug', "PRIVACYOFF");    
             $EzvizCamera->switch_privacy_mode(0);
+            break;
+         case "ALARMNOTIFYON":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYON");
+            #$EzvizCamera->alarm_notify(1);    
+            $EzvizCamera->alarm_notify(1);
+            break;
+         case "ALARMNOTIFYOFF":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYOFF");    
+            #$EzvizCamera->alarm_notify(0);
+            $EzvizCamera->alarm_notify(0);
+            break;
+         case "ALARMNOTIFYINTENSE":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYINTENSE");    
+            $EzvizCamera->alarm_sound(1);
+            break;          
+         case "ALARMNOTIFYLOGICIEL":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYLOGICIEL");    
+            $EzvizCamera->alarm_sound(0);
+            break;         
+         case "ALARMNOTIFYSILENCE":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYSILENCE");    
+            $EzvizCamera->alarm_sound(2);
             break;
          case "GETSTATUS":
             log::add('jeezviz', 'debug', "GETSTATUS");
